@@ -1,0 +1,107 @@
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+/*
+class baseClass
+{
+	virtual void function1(int);
+	virtual void function2(int) const;
+};
+
+class childClass:baseClass
+{
+	virtual void function1(float) override;	  //Created new function. Use override for compiler to give error
+	virtual void function2(int) override; //Created new function
+};
+*/
+
+/*
+class dog final		//No one can inherit from dog
+{
+	...
+};
+
+class dog
+{
+	dog(int a){}			//Compiler will not generate default constructor if you have already defined 1
+	dog() = default;
+	virtual void bark() final;	//No one can override bark
+};
+*/
+
+/*
+dog a(2);
+dog b (3.0);	//3.0 -> 3. We don't want to allow this
+a = b;		//We don't want to allow this assignment
+
+define these
+dog(double) = delete;
+dog& operator=(const dog&) = delete;
+*/
+
+/*
+constexpr int A() { return 3;}	//Force the computation to happen at compile time. Tell it A() returns const int
+int arr[A()+3];			//This will work
+
+constexpr int cube(int x){ return x*x*x;}	//Force computation at compile time
+int y = cube(48);
+*/
+
+/*
+String literals
+
+//C++ 03
+char* a = "string";
+
+//C++ 11
+char* a = u8"string";	UTF-18 string
+char16_t* b = u"string";	UTF-16 string
+char32_t* c = U"string";	UTF-32 strings
+char* d = R"string \\";    raw string
+
+*/
+
+//Lamda function
+//cout << [](int x, int y){return x+y}(3,4) << endl;	//Output 7
+
+template<typename func>
+void filter(func f, vector<int> arr )
+{
+	for(auto i: arr)
+	{
+		if(f(i))
+			cout << i << " " << endl;
+	}
+}
+
+int main(void)
+{
+auto f = [](int x, int y) {return x+y;};
+cout << f(3,4) << endl;
+
+vector<int> v = {1,2,3,4,5};
+
+//Function programming using lamda
+filter([](int x){return (x>3);}, v);	//Here f is return(x>3)
+
+//Variable capture
+int y =3;
+filter([&](int x){return (x>y);}, v);	//Here f is return(x>3)
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

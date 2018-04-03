@@ -1,0 +1,33 @@
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class bigArray
+{
+	vector<int>v; 	//huge vector
+	mutable int accessCounter;	//Logic Constness - Use 'mutable'
+	int* var;
+
+public:
+	int getItem(int index) const{
+		//++accessCounter;
+		//const_cast<bigArray*>(this)->accessCounter++;	//Hacky way
+		return v[index];
+	}
+
+	int changeVar(int index, int x) const	//Compiles with const because bitwise constness works
+	{
+		*(var+index) = x;	//var doesn't change
+	}
+};
+
+
+int main(void)
+{
+	bigArray b;
+
+	return 0;
+}
+

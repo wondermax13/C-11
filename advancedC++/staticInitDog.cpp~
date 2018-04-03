@@ -1,0 +1,43 @@
+
+//Look at the example (no. 11 in advanced C++)
+
+#include <iostream>
+
+using namespace std;
+
+void Dog::bark(){
+	cout << " dog rules: name : " << _name << endl;
+}
+
+Dog::Dog(char* name ){
+	cout << " construct dog : name	 : " << name << endl;
+	_name = name;
+}
+
+
+//Use singleton pattern instead of global variables
+//Here cat constructor references global Dog D ("D") and dog constructor references global C("C")
+/*
+Dog* singleton::pd = 0;
+Cat* singleton::pd = 0;
+
+Dog* singleton::getDog(){
+	if(!pd)			//If pd not initialized
+		pd = new Dog("D");
+	return pd;
+}
+
+Cat* singleton::getCat(){
+	if(!pc)			//If pc not initialized
+		pc = new Cat("D");
+	return pc;
+}
+
+singleton::~singleton(){
+	if(pd) delete pd;
+	if(pc) delete pc;
+	pd = 0;
+	pc = 0;
+
+}
+*/

@@ -1,0 +1,17 @@
+
+
+#include <iostream>
+
+using namespace std;
+
+struct Person_t{
+	string name;
+	unsigned int age ;
+};
+
+class Person{
+	string name_;
+	unsigned int age_ ;
+};
+
+

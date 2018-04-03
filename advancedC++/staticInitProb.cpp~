@@ -1,0 +1,14 @@
+
+#include <iostream>
+
+using namespace std;
+
+void Dog::bark(){
+	cout << " dog rules: name : " << _name << endl;
+}
+
+Dog::Dog(char* name ){
+	cout << " construct dog : name	 : " << name << endl;
+	_name = name;
+}
+

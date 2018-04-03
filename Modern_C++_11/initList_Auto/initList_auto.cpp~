@@ -1,0 +1,81 @@
+
+#include <vector>
+#include <string>
+#include <iostream>
+#include <initializer_list>
+using namespace std;
+
+int arr[4] = {3, 2, 4 ,5};
+
+// { } is uniform initialization
+
+//vector<int> v{3, 2, 4 ,5}; - 2nd choice
+//vector<int> v = {3, 2, 4 ,5};
+
+
+//1st choice
+class boVector{
+	vector<int> m_vec;
+	public:
+	boVector(const initializer_list<int> &v){
+	for(initializer_list<int>::iterator itr = v.begin(); itr != v.end(); ++itr)
+	{
+		m_vec.push_back(*itr);
+	}
+	}
+};
+
+
+class dog
+{
+public:
+	int var1;
+	string var2;
+	//var1 = 9;	Initialized at every constructor
+
+	dog() { var1 = 8; }
+
+	dog(const initializer_list<int>& vec)		//1st choice
+	{
+		var1 = *(vec.begin());
+	}
+
+	//dog(int a) { dog(); doOtherStuff(a);} 1 constructor inside other is undefined behaviour. Use init() function. dog(){ init(); }
+
+	//C++11
+	//dog(int a): dog(){ doOtherStuff(a);}	//1st constructor is in the init-list of 2nd
+
+};
+
+/*
+enum class a{green,blue};
+enum class b{small,big};
+can't define a==b
+*/
+
+/*
+static_assert(sizeof(int)==4)
+*/
+
+int main(void)
+{
+	//C++03 allows this
+	//dog d = {1,"hero"};		//Aggregate Initialization - 3rd choice
+	//boVector v{1,2,3};
+
+/*
+	for(auto it =vec.begin(); it!=vec.end(); ++it)	//instead of iterator
+		cout << *it << endl;
+
+	for(auto i:v)				//readonly access
+		cout << i << endl;
+
+	for(auto& i:v)				//modifiable access
+		cout << i << endl;
+*/
+	//C++ 11
+	//foo(nullptr)
+
+	return 0;
+}
+

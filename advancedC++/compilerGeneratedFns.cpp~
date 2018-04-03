@@ -1,0 +1,56 @@
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class dog
+{
+public:
+
+	string m_name;
+	dog(string name = "Bob"){m_name = name;}	//Compiler doesn't generate default constructor as this is the default constructor
+	~dog()	{...};
+
+	dog(const dog &rhs){...}		//Member by member initialization
+
+	dog& operator=(const dog& rhs){...}	//Member by member copying
+
+
+	dog(){...}	//Base class Constructor if it exists. Calls member default constructor if it exists or generate one
+
+	~dog(){...}	//Base class Destructor if it is not private
+
+};
+
+class dogNew()
+{
+	collar m_collar;
+	string &m_name;		//this is not valid as references need to be initialized. this will not compile if we do a copy
+
+	dog()="default"
+}
+
+
+
+
+int main(void)
+{
+	dog dog1("Henry");	//
+	dog dog2;
+	dog2 = dog1;
+
+	return 0;
+}
+
+/*
+	COMPILER GENERATES THESE FNS.
+	Copy Constructor - no (Not used)
+	Copy Assignment Operator - yes as it is not defined (Used)
+	Destructor - no
+	Default Destructor - no 
+
+	STL container requires copy constructor and assignment operator in containee
+*/
+
+

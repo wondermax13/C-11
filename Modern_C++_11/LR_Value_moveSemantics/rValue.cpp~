@@ -1,0 +1,143 @@
+
+#include <iostream>
+
+using namespace std;
+
+//C++ 11 Rvalue reference
+
+
+void printI(int& i){ cout << " lvalue ref: " << i << endl;}
+void printI(int&& i){ cout << " rvalue ref: " << i << endl;}
+
+//This 3rd function overloading will confuse the compiler for both the cases
+//void printI(int i){ cout << " normal int: " << i << endl;}
+
+class boVector
+{
+	int size;
+	double* arr_;	//A big array
+
+public:
+	boVector(){ size = 0;}
+
+	boVector(const boVector& rhs)	//Copy constructor
+	{
+		size = rhs.size;
+		arr_ = new double[size];
+		for(int i=0; i<size; i++){ arr_[i] = rhs.arr_[i]; }
+	}
+
+	boVector(boVector&& rhs)	//Move constructor
+	{				//This constructor is making an in-expensive shallow copy
+		size = rhs.size;
+		arr_ = rhs.arr_;
+		rhs.arr_ = nullptr;
+	}
+
+	~boVector(){ delete arr_; }
+};
+
+boVector createBoVector(void){ boVector v; return v;}
+
+int foo(boVector v){ return 0; }; //return v.size;
+
+int main(void)
+{
+	int a = 5;	//lvalue
+	int & b = a;	//lvalue reference
+
+	//int &&c; 	//rvalue reference
+
+	printI(a);
+	printI(6);
+
+	boVector reusable = createBoVector();
+	//foo(reusable);		//lvalue reference. this function will do a deep copy of reusable and then use that copy
+	//foo(createBoVector())		//rvalue. so move constructor called
+
+	//reusable object is moved to foo by move function. So reusable destroyed //MOVE CONSTRUCTOR - 2ND FASTEST
+	//foo(std::move(reusable));
+	//foo_by_ref(reusable)		//Call by reference - FASTEST
+
+
+	//Overload copy constructor and copy assignment operator to acheive move semantics
+	/*
+	//OVERLOADING COPY ASSIGNMENT OPERATOR
+	X& X::operator=(X const & rhs);
+	X& X::operator=(X && rhs);
+
+	//C++-11 already has move semantics. So pass-by-value can be used for STL containers
+	vector<int> foo()
+	{ return myVector;}
+
+	void hoo(string s)
+
+	bool goo(vector<int> & arg)	//Pass by reference if you use arg to carry data back from goo
+	*/
+
+	//CONCLUSION - USE MOVE SEMANTICS IN CASES WHERE YOU PASS BY VALUE NOT REFERENCE
+
+	return 0;
+}
+
+/*
+	//PERFECT FORWARDINGS
+
+void foo(boVector arg)	//boVector has both move constructor and copy constructor
+
+template<typename T>
+void relay(T arg)
+{
+	foo(arg);	//rvalue should be forwarded as rvalue, lvalue should be forwarded as lvalue
+}
+
+relay(reusable);
+relay(createBoVector());
+
+//SOLUTION
+template<typename T>
+void relay(T && arg)
+{
+	foo(std::forward<T>( arg ));
+}
+
+
+	T& &   => T&
+	T& &&  => T&
+	T&& &  => T&
+	T&& && => T&&
+
+template<...>
+struct remove_reference
+
+//T is int&
+remove_reference<int&>::type i	//int i;
+remove_reference<int>::type i	//int i;
+
+void relay(T&& arg)	//Universal value
+
+relay(9)  T = int&& => T&& = int&& && = int&&
+relay(x)   T = int& => T&& = int& && = int&
+
+//Reference collapsing happens on T
+//So T should be a function template type not a class template type (Eg. int, double)s
+
+template<typename T>
+void relay(T&& arg)
+{
+	foo(std::forward<T>(arg));
+}
+
+//Implementation of std::forward()
+//This function cast arg to the type of T&&
+template<typename T>
+T&& forward(typename remove_reference<T>::type & arg)
+	return static_cast<T&&>arg;
+*/
+/*
+	move<T>arg	//Typecast into rvalue type
+	forward<T>arg	//Typecast into T&& type
+*/
+
+
+

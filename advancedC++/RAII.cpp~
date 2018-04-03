@@ -1,0 +1,20 @@
+
+#include<iostream>
+#include<mutex>
+
+using namespace std;
+
+Mutext_t mu = MUTEX_INITIALIZER;
+
+void functionA()
+{
+	Mutext_lock(&mu);
+	Mutext_unlock(&mu);
+}
+
+int main(void)
+{
+	return 0;
+}
+
+
